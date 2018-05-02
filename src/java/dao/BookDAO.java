@@ -3,6 +3,7 @@ package dao;
 import entities.Book;
 import interfaces.CRUDMethods;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 import util.HibernateUtil;
@@ -16,8 +17,19 @@ public class BookDAO implements CRUDMethods{
     
     public BookDAO(){}
 
+    
+    
     /**
-     * Save anew book.
+     * It returns a new Hibernate session.
+     * 
+     * @return A hibernate session.
+     */
+    private Session openSession(){
+        return HibernateUtil.getSessionFactory().openSession();
+    }
+    
+    /**
+     * Save a new book.
      * 
      * @param newBook 
      */
@@ -37,28 +49,64 @@ public class BookDAO implements CRUDMethods{
     }
 
     
-    /**
-     * Searches all the books into database.
-     * @return A List of {@link  Book}'s object.
-     */
     @Override
-    public List<Book> listAll() {
-        
+    public List<Book> listAll() {        
         Session session = this.openSession();
         List<Book> list = session.getNamedQuery("Book.findAll").list();
-        session.close();
-        
+        session.close();        
         return list;
     }
     
-    
-    /**
-     * It returns a new Hibernate session.
-     * 
-     * @return A hibernate session.
-     */
-    private Session openSession(){
-        return HibernateUtil.getSessionFactory().openSession();
+
+    @Override
+    public List<Book> searchById(int id) {
+        Session session = this.openSession();
+        Query query = session.getNamedQuery("Book.findById");
+        query.setParameter("id", id);
+        List<Book> list = query.list();
+        session.close();
+        return list;
+    }
+
+
+    @Override
+    public List<Book> searchByTitle(String title) {
+        Session session = this.openSession();
+        Query query = session.getNamedQuery("Book.findByTitle");
+        query.setParameter("title", title);
+        List<Book> list = query.list();
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<Book> searchByAuthor(String author) {
+        Session session = this.openSession();
+        Query query = session.getNamedQuery("Book.findByAuthor");
+        query.setParameter("author", author);
+        List<Book> list = query.list();
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<Book> searchByPublisher(String publisher) {
+        Session session = this.openSession();
+        Query query = session.getNamedQuery("Book.findByPublisher");
+        query.setParameter("publisher", publisher);
+        List<Book> list = query.list();
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<Book> searchByGenre(String genre) {
+        Session session = this.openSession();
+        Query query = session.getNamedQuery("Book.findByGenre");
+        query.setParameter("genre", genre);
+        List<Book> list = query.list();
+        session.close();
+        return list;
     }
     
     

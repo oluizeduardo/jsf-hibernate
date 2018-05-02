@@ -10,61 +10,92 @@
         
         <h1>Library System - Book Register</h1>
         
-        
-        
         <h:form id="form-base">
-        <p:panel id="panel-base" header="Book Register">
-            <h:form id="form-fields">
-                <p:growl autoUpdate="true"/>
-                <h:panelGrid columns="2">
-                    <p:outputLabel value="Id." for="id"/>
-                    <p:inputText id="id" value="#{bookBean.book.id}" required="true" 
-                                 requiredMessage="Id is a required field!" />
-
-                    <p:outputLabel value="Title" for="title"/>
-                    <p:inputText id="title" value="#{bookBean.book.title}" required="true" 
-                                 requiredMessage="Title is a required field!" maxlength="40" />
-
-                    <p:outputLabel value="Author" for="author"/>
-                    <p:inputText id="author" value="#{bookBean.book.author}" required="true" 
-                                 requiredMessage="Author is a required field!" maxlength="40"/>
-
-                    <p:outputLabel value="Publisher" for="publisher"/>
-                    <p:inputText id="publisher" value="#{bookBean.book.publisher}" maxlength="30"/>
-
-                    <p:outputLabel value="Genre" for="genre"/>
-                    <p:inputText id="genre" value="#{bookBean.book.genre}" maxlength="20"/>
-                
-                    <p:commandButton value="Save" action="#{bookBean.save()}" update=":form-base"/>
-                </h:panelGrid>
-            </h:form>
-
-            <p/>
             
-            <h:form id="form-table">                
-                <p:dataTable var="book" value="#{bookBean.list}" >
-                    <p:column>
-                        <f:facet name="header">Title</f:facet>
-                        #{book.title}
-                    </p:column>
+            <p:panel id="panel-base">
+                
+                <h:panelGrid id="pn-grid" columns="3">
+                    <p:panel id="panel-register" header="Book Register">
+                        <h:form id="form-register">
+                            <p:growl autoUpdate="true"/>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Code:" for="id"/>
+                                <p:inputText id="id" value="#{bookBean.book.id}" required="true" 
+                                              requiredMessage="Id is a required field." />
 
-                    <p:column>
-                        <f:facet name="header">Author</f:facet>
-                        #{book.author}
-                    </p:column>
+                                <p:outputLabel value="Title:" for="title"/>
+                                <p:inputText id="title" value="#{bookBean.book.title}" required="true" 
+                                              requiredMessage="Title is a required field." maxlength="40" />
 
-                    <p:column>
-                        <f:facet name="header">Publisher</f:facet>
-                        #{book.publisher}
-                    </p:column>
+                                <p:outputLabel value="Author:" for="author"/>
+                                <p:inputText id="author" value="#{bookBean.book.author}" required="true" 
+                                              requiredMessage="Author is a required field." maxlength="40"/>
 
-                    <p:column>
-                        <f:facet name="header">Genre</f:facet>
-                        #{book.genre}
-                    </p:column>
-                </p:dataTable>
-            </h:form>
-        </p:panel>
+                                <p:outputLabel value="Publisher:" for="publisher"/>
+                                <p:inputText id="publisher" value="#{bookBean.book.publisher}" maxlength="30"/>
+
+                                <p:outputLabel value="Genre:" for="genre"/>
+                                <p:inputText id="genre" value="#{bookBean.book.genre}" maxlength="20"/>
+
+                                <p:commandButton value="Save" action="#{bookBean.save()}" update=":form-base"/>
+                            </h:panelGrid>
+                        </h:form> 
+                    </p:panel>
+
+                    <p:spacer width="150"/>
+                    
+                    <h:form id="form-search">
+                        <p:panel id="panel-search" header="Search Book" style="width:300; height: 200">
+                            <h:panelGrid columns="2">                            
+                                <p:outputLabel for="search" value="Search by:" />
+                                <p:selectOneMenu id="search" style="width:165px" value="#{bookBean.searchBy}">
+                                    <f:selectItem itemLabel="All" itemValue="all" />
+                                    <f:selectItem itemLabel="Id" itemValue="id" />
+                                    <f:selectItem itemLabel="Title" itemValue="title" />
+                                    <f:selectItem itemLabel="Author" itemValue="author" />
+                                    <f:selectItem itemLabel="Publisher" itemValue="publisher" />
+                                    <f:selectItem itemLabel="Genre" itemValue="genre" />                                    
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:inputText value="#{bookBean.valueUsedInSearching}" required="true"/>
+                                <p:commandButton icon="ui-icon-search" actionListener ="#{bookBean.search()}" />
+                            </h:panelGrid>                        
+                        </p:panel>
+                    </h:form>
+                </h:panelGrid>
+                    
+                <p/>
+
+                <h:form id="form-table">                
+                    <p:dataTable var="book" value="#{bookBean.list}" >
+                        <p:column>
+                            <f:facet name="header">Code</f:facet>
+                            #{book.id}
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">Title</f:facet>
+                            #{book.title}
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">Author</f:facet>
+                            #{book.author}
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">Publisher</f:facet>
+                            #{book.publisher}
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">Genre</f:facet>
+                            #{book.genre}
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
         </h:form>
     </h:body>
 </html>

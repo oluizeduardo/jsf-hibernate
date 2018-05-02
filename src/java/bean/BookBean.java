@@ -4,8 +4,8 @@ import dao.BookDAO;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import entities.Book;
-import java.util.ArrayList;
 import javax.annotation.PostConstruct;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,11 +16,11 @@ public class BookBean {
  
     private Book book = new Book();
     private List<Book> list;
+    private String searchBy="all";
+    private String valueUsedInSearching;
     
-    public BookBean(){
-        //this.book = new Book();
-        this.list = new ArrayList<>();
-    }
+    
+    public BookBean(){ }
 
     
     public Book getBook() {
@@ -39,6 +39,22 @@ public class BookBean {
         this.list = list;
     }
     
+    public String getSearchBy() {
+        return searchBy;
+    }
+
+    public void setSearchBy(String searchBy) {
+        this.searchBy = searchBy;
+    }
+    
+    public String getValueUsedInSearching() {
+        return valueUsedInSearching;
+    }
+
+    public void setValueUsedInSearching(String valueUsedInSearching) {
+        this.valueUsedInSearching = valueUsedInSearching;
+    }
+    
     /**
      * Save a new book.
      */
@@ -49,12 +65,32 @@ public class BookBean {
         init();
     }
     
-    /**
-     * Clean all the fields.
-     */
-    public void clean(){
-        this.book = new Book();
-        System.out.println("Cleanning the fields...");
+    
+    public void search(){
+        
+//        JOptionPane.showMessageDialog(null,"Search By: "+searchBy+" Value used: "+valueUsedInSearching);
+        
+        BookDAO bookDAO = new BookDAO();
+        switch(searchBy){
+//            case "id":
+//                this.list = bookDAO.searchById(book.getId());
+//            break;
+            case "title":
+                this.list = bookDAO.searchByTitle(valueUsedInSearching);
+            break;
+            case "author":
+                this.list = bookDAO.searchByAuthor(valueUsedInSearching);
+            break;
+            case "publisher":
+                this.list = bookDAO.searchByPublisher(valueUsedInSearching);
+            break;
+            case "genre":
+                this.list = bookDAO.searchByGenre(valueUsedInSearching);
+            break;
+            case "all":
+                this.list = bookDAO.listAll();
+            break;
+        }
     }
     
     
